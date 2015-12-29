@@ -91,7 +91,7 @@ or
 
 ## Change Log
 
-**2015-12-29**
+**[2015-12-29](https://github.com/ibspoof/cassandra-migrations/tree/2015-12-29)**
 - Moved from using ordered params to named parameters
 - Added support for passing username and password (--username, --password)
 - Added support for setting C* port (--port)
@@ -100,7 +100,7 @@ or
 - Added method to return current version of migrations applied
 - Added color output for all output
 
-**2015-01-02**
+**[2015-01-02](https://github.com/ibspoof/cassandra-migrations/tree/2015-01-02)**
 - Enables multiple CQL up/down executions in the same migration
 - Ability to have migrations for multiple keyspaces with single installation
 - Updated default migration XML template
