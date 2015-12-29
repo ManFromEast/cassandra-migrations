@@ -14,41 +14,91 @@ $ pip install blist
 
 ## Usage
 
-### Create migration
+### Help
+
+Basic Help
+```
+./cassandra-migrations.py -h
+```
+
+Full Help
+```bash
+./cassandra-migrations.py help full
+```
+
+### Create Migration
 
 ```
-./cassandra-migrations.py generate {keyspace} {MigrationName}
+./cassandra-migrations.py generate {keyspace} --name {name}
 ```
-This creates a new file like: ./migrations/{keyspace}/20140914222010_{MigrationName}.xml
+This creates a new file  /migrations/{keyspace}/20140914222010_{MigrationName}.xml
 ```xml
 <?xml version="1.0" ?>
 <migration>
-    <up>
-	    <cql><![CDATA[
+<up>
+    <!-- each CQL statment must be between <cql></cql> -->
+    <cql><![CDATA[
 Here cql up
-	    ]]></cql>
-	</up>
-	<down>
-  	    <cql><![CDATA[
+    ]]></cql>
+</up>
+<down>
+    <cql><![CDATA[
 Here cql down
-		]]></cql>
-	</down>
+    ]]></cql>
+</down>
 </migration>
 ```
-### Execute migration
+
+### Execute Migration
+
+Apply migrations to a keyspace:
 ```
-$ ./cassandra-migrations.py migrate {keyspace}
+./cassandra-migrations.py migrate {keyspace}
 ```
-or 
+
+for a remote server
 ```
-$ ./cassandra-migrations.py migrate {keyspace} {serverIP}
+./cassandra-migrations.py migrate {keyspace} --ip {serverIP}
 ```
-### rollback migration
+
+for a remote server w/ authentication
 ```
-$ ./cassandra-migrations.py rollback {keyspace}
+./cassandra-migrations.py migrate {keyspace} --ip {serverIP} --username {username} --password {password}
+```
+
+### Rollback Migration
+```
+./cassandra-migrations.py rollback {keyspace}
+```
+
+## Get Latest Migration Version
+```
+./cassandra-migrations.py current {keyspace}
+```
+or
+```
+./cassandra-migrations.py current {keyspace} --ip {serverIP}
+```
+
+### Optional Settings
+```
+--ip {serverIp}
+--port {C* Port}
+--username {C* Username}
+--password {C* Password}
+--con {consistencyLevel} // ONE, EACH_QUARUM, ANY, LOCAL_QUARUM (default)
 ```
 
 ## Change Log
+
+**2015-12-29**
+- Moved from using ordered params to named parameters
+- Added support for passing username and password (--username, --password)
+- Added support for setting C* port (--port)
+- Added support for setting consistencyLevel (--con)
+- Added check for C* driver version 2.7.1+ (older versions seem to have issues)
+- Added method to return current version of migrations applied
+- Added color output for all output
 
 **2015-01-02**
 - Enables multiple CQL up/down executions in the same migration
