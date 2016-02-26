@@ -40,6 +40,7 @@ parser.add_argument('--password', help="C* Password")
 parser.add_argument('--name',
                     help="Name of schema migration to use when using 'generate' task. "
                          "Example output: 20150105110259_{name}.xml")
+parser.add_argument('--timeout', default=60, help='Session default_timeout')
 
 args = parser.parse_args()
 
@@ -161,6 +162,8 @@ def _connect():
 
 def migrate():
     session = _connect()
+
+    session.default_timeout = args.timeout
 
     # check if schema migrations table exists
     query = SimpleStatement("SELECT * FROM schema_migrations LIMIT 1", consistency_level=conLevel)
